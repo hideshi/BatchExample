@@ -1,7 +1,10 @@
 package org.simplebatchframework.example.core;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.MDC;
 import org.simplebatchframework.core.Runner;
 import org.simplebatchframework.core.exception.BatchDataBaseRuntimeException;
 import org.simplebatchframework.core.exception.BatchFileIORuntimeException;
@@ -15,6 +18,8 @@ public class BatchExampleRunner extends Runner {
 
 	public static void main(String[] args) {
 		try {
+			RuntimeMXBean rt = ManagementFactory.getRuntimeMXBean();
+			MDC.put("pid", rt.getName());
 			run(args);
 			System.exit(ExitCode.SUCCESS.getCode());
 		} catch(BatchFrameworkRuntimeException e) {
